@@ -22,7 +22,7 @@ RUN dotnet publish src/Chaika.Api -c Release -o /app/publish --no-restore
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
 WORKDIR /app
 
-RUN useradd -m -u 1000 appuser && chown -R appuser /app
+RUN useradd -m appuser && chown -R appuser /app
 USER appuser
 
 COPY --from=build /app/publish .
