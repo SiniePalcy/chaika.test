@@ -129,6 +129,26 @@ Returns `200 OK` with available rooms, `400 Bad Request` for invalid input, or `
 POST /api/bookings
 ```
 
+Example request body:
+
+```json
+{
+  "hotelId": "hotel-1",
+  "roomId": "room-family",
+  "ratePlanId": "rate-family-hb",
+  "checkInDate": "2026-07-15",
+  "checkOutDate": "2026-07-18",
+  "roomsCount": 1,
+  "adultsCount": 2,
+  "childrenAges": [5, 8],
+  "customer": {
+    "firstName": "Maria",
+    "lastName": "Garcia",
+    "email": "maria.garcia@example.com"
+  }
+}
+```
+
 Booking creation is intentionally not implemented for this task.
 
 Expected response:
