@@ -1,0 +1,8 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\Chaika.Application\Chaika.Application.csproj" />
+    <ProjectReference Include="..\Chaika.Domain\Chaika.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
