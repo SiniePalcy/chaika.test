@@ -3,28 +3,23 @@ namespace Chaika.Domain.Entities;
 /// <summary>
 /// A bookable room type within a hotel, with its available rate plans.
 /// </summary>
-public sealed class Room
+public sealed class Room(string id, string name, int maxOccupancy, IReadOnlyCollection<RatePlan> ratePlans)
 {
-    public Room(string id, string name, int maxOccupancy, IReadOnlyCollection<RatePlan> ratePlans)
-    {
-        Id = id;
-        Name = name;
-        MaxOccupancy = maxOccupancy;
-        RatePlans = ratePlans;
-    }
+    public string Id { get; } = id;
 
-    public string Id { get; }
-
-    public string Name { get; }
+    public string Name { get; } = name;
 
     /// <summary>Maximum number of guests (adults + children) a single room can hold.</summary>
-    public int MaxOccupancy { get; }
+    public int MaxOccupancy { get; } = maxOccupancy;
 
-    public IReadOnlyCollection<RatePlan> RatePlans { get; }
+    public IReadOnlyCollection<RatePlan> RatePlans { get; } = ratePlans;
 
-    /// <summary>True when a single room can accommodate the requested number of guests per room.</summary>
-    public bool CanAccommodate(int guestsPerRoom)
+    /// <summary>
+    /// True when <paramref name="roomsCount"/> rooms of this type can collectively hold
+    /// <paramref name="totalGuests"/> guests (i.e. total capacity covers the whole party).
+    /// </summary>
+    public bool CanAccommodate(int totalGuests, int roomsCount)
     {
-        return MaxOccupancy >= guestsPerRoom;
+        return MaxOccupancy * roomsCount >= totalGuests;
     }
 }

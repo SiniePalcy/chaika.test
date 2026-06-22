@@ -37,7 +37,6 @@ public sealed class SearchAvailabilityRequestValidator : AbstractValidator<Searc
             .GreaterThan(0);
 
         RuleForEach(x => x.ChildrenAges)
-            .InclusiveBetween(0, 17)
-            .When(x => x.ChildrenAges is not null);
+            .InclusiveBetween(0, 17);
     }
 }

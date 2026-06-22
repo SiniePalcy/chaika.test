@@ -28,6 +28,14 @@ public sealed class CreateBookingRequestValidator : AbstractValidator<CreateBook
             .GreaterThan(x => x.CheckInDate)
             .WithMessage("Check-out date must be after check-in date.");
 
+        RuleFor(x => x.CheckInDate)
+            .LessThanOrEqualTo(clock.Today.AddYears(1))
+            .WithMessage("Check-in date must not be more than one year ahead.");
+
+        RuleFor(x => x)
+            .Must(x => x.CheckOutDate.DayNumber - x.CheckInDate.DayNumber <= 31)
+            .WithMessage("Stay duration must not exceed one month.");
+
         RuleFor(x => x.RoomsCount)
             .GreaterThan(0);
 
@@ -35,8 +43,7 @@ public sealed class CreateBookingRequestValidator : AbstractValidator<CreateBook
             .GreaterThan(0);
 
         RuleForEach(x => x.ChildrenAges)
-            .InclusiveBetween(0, 17)
-            .When(x => x.ChildrenAges is not null);
+            .InclusiveBetween(0, 17);
 
         RuleFor(x => x.Customer)
             .NotNull();

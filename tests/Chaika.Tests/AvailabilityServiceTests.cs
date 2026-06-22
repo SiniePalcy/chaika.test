@@ -56,6 +56,18 @@ public sealed class AvailabilityServiceTests
     }
 
     [Fact]
+    public async Task Rooms_accommodate_the_party_across_the_requested_room_count()
+    {
+        var service = CreateService();
+        // hotel-2's only room holds 1 guest; two such rooms collectively hold the two-adult party.
+        var query = Query("hotel-2") with { RoomsCount = 2 };
+
+        var result = await service.SearchAsync(query, CancellationToken.None);
+
+        Assert.NotEmpty(result.Rooms);
+    }
+
+    [Fact]
     public async Task Total_price_is_price_per_night_times_nights_times_rooms()
     {
         var service = CreateService();

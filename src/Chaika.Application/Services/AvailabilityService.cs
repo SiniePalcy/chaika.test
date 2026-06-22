@@ -10,20 +10,13 @@ namespace Chaika.Application.Services;
 /// <summary>
 /// Computes available rooms and their total prices from the (mock) hotel repository.
 /// </summary>
-public sealed class AvailabilityService : IAvailabilityService
+public sealed class AvailabilityService(IHotelRepository hotelRepository) : IAvailabilityService
 {
-    private readonly IHotelRepository _hotelRepository;
-
-    public AvailabilityService(IHotelRepository hotelRepository)
-    {
-        _hotelRepository = hotelRepository;
-    }
-
     public async Task<SearchAvailabilityResult> SearchAsync(
         SearchAvailabilityQuery query,
         CancellationToken cancellationToken)
     {
-        var hotel = await _hotelRepository.GetByIdAsync(query.HotelId, cancellationToken).ConfigureAwait(false);
+        var hotel = await hotelRepository.GetByIdAsync(query.HotelId, cancellationToken).ConfigureAwait(false);
 
         if (hotel is null)
         {
@@ -31,10 +24,10 @@ public sealed class AvailabilityService : IAvailabilityService
         }
 
         var stay = new StayPeriod(query.CheckInDate, query.CheckOutDate);
-        var guestsPerRoom = query.AdultsCount + query.ChildrenAges.Count;
+        var totalGuests = query.AdultsCount + query.ChildrenAges.Count;
 
         var availableRooms = hotel.Rooms
-            .Where(room => room.CanAccommodate(guestsPerRoom))
+            .Where(room => room.CanAccommodate(totalGuests, query.RoomsCount))
             .Select(room => MapRoom(room, stay.Nights, query.RoomsCount))
             .ToList();
 
