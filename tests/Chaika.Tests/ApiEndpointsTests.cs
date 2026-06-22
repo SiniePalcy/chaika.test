@@ -11,15 +11,9 @@ public sealed class ApiEndpointsTests(ChaikaApiFactory factory) : IClassFixture<
     public async Task Search_returns_available_rooms()
     {
         var client = factory.CreateClient();
-        var request = new SearchAvailabilityRequest(
-            "hotel-1",
-            new DateOnly(2026, 7, 1),
-            new DateOnly(2026, 7, 5),
-            RoomsCount: 1,
-            AdultsCount: 2,
-            ChildrenAges: null);
+        var url = SearchUrl(hotelId: "hotel-1", roomsCount: 1, adultsCount: 2);
 
-        var response = await client.PostAsJsonAsync("/api/availability/search", request);
+        var response = await client.GetAsync(url);
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         var body = await response.Content.ReadFromJsonAsync<SearchAvailabilityResponse>();
@@ -32,15 +26,11 @@ public sealed class ApiEndpointsTests(ChaikaApiFactory factory) : IClassFixture<
     public async Task Search_with_invalid_request_returns_400()
     {
         var client = factory.CreateClient();
-        var request = new SearchAvailabilityRequest(
-            HotelId: string.Empty,
-            CheckInDate: new DateOnly(2026, 7, 1),
-            CheckOutDate: new DateOnly(2026, 7, 5),
-            RoomsCount: 0,
-            AdultsCount: 0,
-            ChildrenAges: null);
+        // Binds successfully, but fails FluentValidation (rooms/adults must be > 0),
+        // so it flows through the validation filter and exception middleware.
+        var url = SearchUrl(hotelId: "hotel-1", roomsCount: 0, adultsCount: 0);
 
-        var response = await client.PostAsJsonAsync("/api/availability/search", request);
+        var response = await client.GetAsync(url);
 
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         var error = await response.Content.ReadFromJsonAsync<ErrorResponse>();
@@ -52,17 +42,25 @@ public sealed class ApiEndpointsTests(ChaikaApiFactory factory) : IClassFixture<
     public async Task Search_for_unknown_hotel_returns_404()
     {
         var client = factory.CreateClient();
-        var request = new SearchAvailabilityRequest(
-            "missing-hotel",
-            new DateOnly(2026, 7, 1),
-            new DateOnly(2026, 7, 5),
-            RoomsCount: 1,
-            AdultsCount: 2,
-            ChildrenAges: null);
+        var url = SearchUrl(hotelId: "missing-hotel", roomsCount: 1, adultsCount: 2);
 
-        var response = await client.PostAsJsonAsync("/api/availability/search", request);
+        var response = await client.GetAsync(url);
 
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+    }
+
+    private static string SearchUrl(
+        string hotelId,
+        int roomsCount,
+        int adultsCount,
+        DateOnly? checkIn = null,
+        DateOnly? checkOut = null)
+    {
+        var from = (checkIn ?? new DateOnly(2026, 7, 1)).ToString("yyyy-MM-dd");
+        var to = (checkOut ?? new DateOnly(2026, 7, 5)).ToString("yyyy-MM-dd");
+
+        return $"/api/availability/search?hotelId={Uri.EscapeDataString(hotelId)}" +
+            $"&checkInDate={from}&checkOutDate={to}&roomsCount={roomsCount}&adultsCount={adultsCount}";
     }
 
     [Fact]
