@@ -8,6 +8,4 @@ public enum MealPlan
     RoomOnly = 0,
     Breakfast = 1,
     HalfBoard = 2,
-    FullBoard = 3,
-    AllInclusive = 4,
 }
