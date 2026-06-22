@@ -9,9 +9,9 @@ namespace Chaika.Client;
 /// </summary>
 public interface IChaikaApi
 {
-    [Post("/api/availability/search")]
+    [Get("/api/availability/search")]
     Task<SearchAvailabilityResponse> SearchAvailabilityAsync(
-        [Body] SearchAvailabilityRequest request,
+        [Query] SearchAvailabilityRequest request,
         CancellationToken ct = default);
 
     [Post("/api/bookings")]

@@ -10,12 +10,12 @@ namespace Chaika.Api.Controllers;
 [Route("api/availability")]
 public sealed class AvailabilityController(ISender sender) : ControllerBase
 {
-    [HttpPost("search")]
+    [HttpGet("search")]
     [ProducesResponseType(typeof(SearchAvailabilityResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status404NotFound)]
     public async Task<ActionResult<SearchAvailabilityResponse>> SearchAsync(
-        [FromBody] SearchAvailabilityRequest request,
+        [FromQuery] SearchAvailabilityRequest request,
         CancellationToken ct)
     {
         var result = await sender.Send(request.ToQuery(), ct).ConfigureAwait(false);
