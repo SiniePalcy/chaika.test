@@ -194,6 +194,19 @@ src/Chaika.Infrastructure/MockData/MockHotels.cs
 `MockHotelRepository` reads hotels from this static collection and can later be replaced with a real
 repository implementation. Available hotels: `hotel-1` (Chaika Sea View), `hotel-2` (Chaika City Center).
 
+## CI/CD
+
+Two GitHub Actions workflows are configured:
+
+**CI** (`.github/workflows/ci.yml`) — runs on every push and on pull requests to `main`:
+- Restores dependencies
+- Builds in Release configuration
+- Runs all tests and uploads `.trx` results as an artifact
+
+**Deploy** (`.github/workflows/deploy.yml`) — runs on every push to `main`:
+- Builds a Docker image and pushes it to GitHub Container Registry (`ghcr.io`)
+- SSH-deploys the `latest` image to the VPS, replacing the running `chaika-api` container on port `8080`
+
 ## Run
 
 ```bash
@@ -202,7 +215,10 @@ dotnet build
 dotnet run --project src/Chaika.Api
 ```
 
-Swagger UI is available in the Development environment at `/swagger`.
+Swagger UI is available at:
+
+- **Local:** http://localhost:5045/swagger/index.html
+- **Deployed:** http://185.47.172.107:8080/swagger/index.html
 
 ## Test
 
