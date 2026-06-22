@@ -14,9 +14,9 @@ public sealed class AvailabilityService(IHotelRepository hotelRepository) : IAva
 {
     public async Task<SearchAvailabilityResult> SearchAsync(
         SearchAvailabilityQuery query,
-        CancellationToken cancellationToken)
+        CancellationToken ct)
     {
-        var hotel = await hotelRepository.GetByIdAsync(query.HotelId, cancellationToken).ConfigureAwait(false);
+        var hotel = await hotelRepository.GetByIdAsync(query.HotelId, ct).ConfigureAwait(false);
 
         if (hotel is null)
         {

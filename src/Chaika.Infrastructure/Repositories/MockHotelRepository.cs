@@ -9,9 +9,9 @@ namespace Chaika.Infrastructure.Repositories;
 /// </summary>
 public sealed class MockHotelRepository : IHotelRepository
 {
-    public Task<Hotel?> GetByIdAsync(string hotelId, CancellationToken cancellationToken)
+    public Task<Hotel?> GetByIdAsync(string hotelId, CancellationToken ct)
     {
-        cancellationToken.ThrowIfCancellationRequested();
+        ct.ThrowIfCancellationRequested();
 
         var hotel = MockHotels.All.FirstOrDefault(x => x.Id == hotelId);
 

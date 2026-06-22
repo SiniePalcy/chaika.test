@@ -13,7 +13,7 @@ namespace Chaika.Tests;
 /// </summary>
 public sealed class ChaikaApiFactory : WebApplicationFactory<Program>
 {
-    public static readonly DateOnly Today = new(2026, 6, 22);
+    static readonly DateOnly Today = new(2026, 6, 22);
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {

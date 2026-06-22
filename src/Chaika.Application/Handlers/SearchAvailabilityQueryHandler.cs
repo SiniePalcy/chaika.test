@@ -13,8 +13,8 @@ public sealed class SearchAvailabilityQueryHandler(IAvailabilityService availabi
 {
     public Task<SearchAvailabilityResult> Handle(
         SearchAvailabilityQuery query,
-        CancellationToken cancellationToken)
+        CancellationToken ct)
     {
-        return availabilityService.SearchAsync(query, cancellationToken);
+        return availabilityService.SearchAsync(query, ct);
     }
 }

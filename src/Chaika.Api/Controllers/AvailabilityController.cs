@@ -16,9 +16,9 @@ public sealed class AvailabilityController(ISender sender) : ControllerBase
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status404NotFound)]
     public async Task<ActionResult<SearchAvailabilityResponse>> SearchAsync(
         [FromBody] SearchAvailabilityRequest request,
-        CancellationToken cancellationToken)
+        CancellationToken ct)
     {
-        var result = await sender.Send(request.ToQuery(), cancellationToken).ConfigureAwait(false);
+        var result = await sender.Send(request.ToQuery(), ct).ConfigureAwait(false);
 
         return Ok(result.ToResponse());
     }

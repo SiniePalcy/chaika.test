@@ -7,5 +7,5 @@ namespace Chaika.Application.Abstractions;
 /// </summary>
 public interface IHotelRepository
 {
-    Task<Hotel?> GetByIdAsync(string hotelId, CancellationToken cancellationToken);
+    Task<Hotel?> GetByIdAsync(string hotelId, CancellationToken ct);
 }

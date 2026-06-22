@@ -18,9 +18,9 @@ public sealed class BookingsController(ISender sender) : ControllerBase
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status501NotImplemented)]
     public async Task<ActionResult<CreateBookingResponse>> CreateAsync(
         [FromBody] CreateBookingRequest request,
-        CancellationToken cancellationToken)
+        CancellationToken ct)
     {
-        var result = await sender.Send(request.ToCommand(), cancellationToken).ConfigureAwait(false);
+        var result = await sender.Send(request.ToCommand(), ct).ConfigureAwait(false);
 
         return Ok(result);
     }

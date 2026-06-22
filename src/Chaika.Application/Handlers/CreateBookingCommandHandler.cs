@@ -13,7 +13,7 @@ public sealed class CreateBookingCommandHandler
 {
     public Task<CreateBookingResult> Handle(
         CreateBookingCommand command,
-        CancellationToken cancellationToken)
+        CancellationToken ct)
     {
         throw new NotImplementedFeatureException("Booking creation is not implemented.");
     }

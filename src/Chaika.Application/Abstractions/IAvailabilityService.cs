@@ -8,5 +8,5 @@ namespace Chaika.Application.Abstractions;
 /// </summary>
 public interface IAvailabilityService
 {
-    Task<SearchAvailabilityResult> SearchAsync(SearchAvailabilityQuery query, CancellationToken cancellationToken);
+    Task<SearchAvailabilityResult> SearchAsync(SearchAvailabilityQuery query, CancellationToken ct);
 }

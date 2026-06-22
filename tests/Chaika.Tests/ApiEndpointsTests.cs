@@ -5,19 +5,12 @@ using Chaika.Contracts.Responses;
 
 namespace Chaika.Tests;
 
-public sealed class ApiEndpointsTests : IClassFixture<ChaikaApiFactory>
+public sealed class ApiEndpointsTests(ChaikaApiFactory factory) : IClassFixture<ChaikaApiFactory>
 {
-    private readonly ChaikaApiFactory _factory;
-
-    public ApiEndpointsTests(ChaikaApiFactory factory)
-    {
-        _factory = factory;
-    }
-
     [Fact]
     public async Task Search_returns_available_rooms()
     {
-        var client = _factory.CreateClient();
+        var client = factory.CreateClient();
         var request = new SearchAvailabilityRequest(
             "hotel-1",
             new DateOnly(2026, 7, 1),
@@ -38,7 +31,7 @@ public sealed class ApiEndpointsTests : IClassFixture<ChaikaApiFactory>
     [Fact]
     public async Task Search_with_invalid_request_returns_400()
     {
-        var client = _factory.CreateClient();
+        var client = factory.CreateClient();
         var request = new SearchAvailabilityRequest(
             HotelId: string.Empty,
             CheckInDate: new DateOnly(2026, 7, 1),
@@ -58,7 +51,7 @@ public sealed class ApiEndpointsTests : IClassFixture<ChaikaApiFactory>
     [Fact]
     public async Task Search_for_unknown_hotel_returns_404()
     {
-        var client = _factory.CreateClient();
+        var client = factory.CreateClient();
         var request = new SearchAvailabilityRequest(
             "missing-hotel",
             new DateOnly(2026, 7, 1),
@@ -75,7 +68,7 @@ public sealed class ApiEndpointsTests : IClassFixture<ChaikaApiFactory>
     [Fact]
     public async Task Create_booking_returns_501_not_implemented()
     {
-        var client = _factory.CreateClient();
+        var client = factory.CreateClient();
         var request = new CreateBookingRequest(
             "hotel-1",
             "room-standard",
