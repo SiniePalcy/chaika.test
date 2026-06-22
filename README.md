@@ -66,7 +66,7 @@ Any developer tools are allowed.
 
 ## What is implemented
 
-- Search available rooms for a selected hotel and stay period (`POST /api/availability/search`)
+- Search available rooms for a selected hotel and stay period (`GET /api/availability/search`)
 - Return available rooms with rate plans, total price, cancellation policy and meal plan
 - Booking creation endpoint and request model (`POST /api/bookings`) that returns `501 Not Implemented`
 - Mock data instead of a real database
@@ -112,20 +112,13 @@ its only external dependency is `MediatR.Contracts` for the command/query reques
 ### Search availability
 
 ```http
-POST /api/availability/search
+GET /api/availability/search
 ```
 
 Example request:
 
-```json
-{
-  "hotelId": "hotel-1",
-  "checkInDate": "2026-07-01",
-  "checkOutDate": "2026-07-05",
-  "roomsCount": 1,
-  "adultsCount": 2,
-  "childrenAges": [7]
-}
+```
+http://localhost:5045/api/availability/search?HotelId=hotel-1&CheckInDate=2026-06-23&CheckOutDate=2026-06-24&RoomsCount=1&AdultsCount=1
 ```
 
 Returns `200 OK` with available rooms, `400 Bad Request` for invalid input, or `404 Not Found` for an unknown hotel.
