@@ -1,0 +1,14 @@
+<Project>
+
+  <!--
+    Shared defaults for every project in the solution.
+    .NET 10 is the default target framework; bump this single value to retarget the whole solution.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+</Project>

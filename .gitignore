@@ -1,0 +1,22 @@
+# Build output
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+artifacts/
+
+# Rider / Visual Studio / VS Code
+.vs/
+.idea/
+*.user
+*.suo
+
+# Test results
+[Tt]est[Rr]esults/
+*.trx
+
+# NuGet
+*.nupkg
+packages/
+AGENTS.md
+CLAUDE.md

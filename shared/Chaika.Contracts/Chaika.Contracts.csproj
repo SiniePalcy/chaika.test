@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Transport-only contracts. No package or project references. -->
+
+</Project>
