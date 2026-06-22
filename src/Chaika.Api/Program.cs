@@ -22,7 +22,8 @@ var app = builder.Build();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
-if (app.Environment.IsDevelopment())
+//for all environments for availability to test
+//if (app.Environment.IsDevelopment()) 
 {
     app.UseSwaggerWithUi();
 }
